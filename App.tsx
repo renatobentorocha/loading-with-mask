@@ -1,13 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { LoadingText } from './LoadingText';
+import { StyleSheet, View, Text } from 'react-native';
+import LoadingText from './LoadingText';
 
 export default function App() {
   return (
     <View style={styles.container}>
       <LoadingText />
-      <View style={styles.mask} />
       <StatusBar style="auto" />
     </View>
   );
@@ -16,15 +15,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#171717',
+    backgroundColor: '#333',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  mask: {
-    position: 'absolute',
-    bottom: 415,
-    width: '100%',
-    backgroundColor: '#ff0000',
-    paddingVertical: 20,
   },
 });
