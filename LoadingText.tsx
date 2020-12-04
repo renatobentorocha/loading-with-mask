@@ -51,8 +51,14 @@ const runProgress = (clock: Clock) => {
   ]);
 };
 
-console.log(Dimensions.get('window').width);
 const AnimatedRect = Animated.createAnimatedComponent(Rect);
+
+const { width, height } = Dimensions.get('window');
+const MASK_WIDTH = 373;
+const MASK_HEIGHT = 118;
+const MASK_X_POSITION = (MASK_WIDTH - (width - MASK_WIDTH) / 2) * -1;
+const SVG_TEXT_HEIGHT = 97;
+const SVG_TEXT_FONT_SIZE = 100;
 
 function SvgComponent(props: SvgProps) {
   const clock = useRef(new Clock()).current;
@@ -76,28 +82,35 @@ function SvgComponent(props: SvgProps) {
         </LinearGradient>
         <Mask
           id="Mask"
-          x={Dimensions.get('window').width / 2 - 373 / 2}
-          y={Dimensions.get('window').height / 2 - 97}
-          height="118"
+          x={Dimensions.get('window').width / 2 - MASK_WIDTH / 2}
+          y={Dimensions.get('window').height / 2 - SVG_TEXT_HEIGHT}
+          height={MASK_HEIGHT}
         >
           <AnimatedRect
-            x={Dimensions.get('window').width / 2 - 373 / 2}
-            y={Dimensions.get('window').height / 2 - 97}
-            width={interpolate(progress, {
-              inputRange: [0, 1],
-              outputRange: [0, 373],
-              extrapolate: Extrapolate.CLAMP,
-            })}
-            height="118"
+            x={MASK_X_POSITION}
+            y={Dimensions.get('window').height / 2 - SVG_TEXT_HEIGHT}
+            width={MASK_WIDTH}
+            style={{
+              transform: [
+                {
+                  translateX: interpolate(progress, {
+                    inputRange: [0, 1],
+                    outputRange: [0, MASK_WIDTH],
+                    extrapolate: Extrapolate.CLAMP,
+                  }),
+                },
+              ],
+            }}
+            height={MASK_HEIGHT}
             fill="url(#Gradient)"
           />
         </Mask>
         <Text
           id="Text"
-          x={Dimensions.get('window').width / 2}
-          y={Dimensions.get('window').height / 2}
+          x={width / 2}
+          y={height / 2}
           fontFamily="Verdana"
-          fontSize="100"
+          fontSize={SVG_TEXT_FONT_SIZE}
           textAnchor="middle"
         >
           Loading
